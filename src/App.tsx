@@ -59,12 +59,14 @@ const theme = createTheme({
         MuiButtonBase: {
             root: {
                 justifyContent: 'flex-start',
+                
             },
         },
         MuiButton: {
             root: {
                 textTransform: undefined,
                 padding: '12px 16px',
+                fontFamily: 'Essays'
             },
             startIcon: {
                 marginRight: 8,
