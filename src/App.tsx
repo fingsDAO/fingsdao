@@ -24,32 +24,21 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 
 import "./App.css";
-import { DEFAULT_TIMEOUT } from './connection';
 import Home from "./Home";
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
-const getCandyMachineId = (): anchor.web3.PublicKey | undefined => {
-    try {
-        const candyMachineId = new anchor.web3.PublicKey(
-            process.env.REACT_APP_CANDY_MACHINE_ID!,
-        );
 
-        return candyMachineId;
-    } catch (e) {
-        console.log('Failed to construct CandyMachineId', e);
-        return undefined;
-    }
-};
-
-const candyMachineId = getCandyMachineId();
+const candyMachineId = new anchor.web3.PublicKey(
+  process.env.REACT_APP_CANDY_MACHINE_ID!
+);
 
 const network = process.env.REACT_APP_SOLANA_NETWORK as WalletAdapterNetwork;
 
 const rpcHost = process.env.REACT_APP_SOLANA_RPC_HOST!;
-const connection = new anchor.web3.Connection(
-    rpcHost ? rpcHost : anchor.web3.clusterApiUrl('devnet'),
-);
+const connection = new anchor.web3.Connection(rpcHost);
+
+const txTimeout = 30000; // milliseconds (confirm this works for your project)
 
 const theme = createTheme({
     palette: {
@@ -59,14 +48,12 @@ const theme = createTheme({
         MuiButtonBase: {
             root: {
                 justifyContent: 'flex-start',
-                
             },
         },
         MuiButton: {
             root: {
                 textTransform: undefined,
                 padding: '12px 16px',
-                fontFamily: 'Essays'
             },
             startIcon: {
                 marginRight: 8,
@@ -108,9 +95,8 @@ const App = () => {
               <Home
                 candyMachineId={candyMachineId}
                 connection={connection}
-                txTimeout={DEFAULT_TIMEOUT}
+                txTimeout={txTimeout}
                 rpcHost={rpcHost}
-                network={network}
               />
             </WalletModalProvider>
           </WalletProvider>
